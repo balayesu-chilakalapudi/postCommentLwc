@@ -1,0 +1,23 @@
+<template>
+    <template if:true={recordId}>
+    <lightning-tabset variant="scoped">
+        <lightning-tab label="Post">
+            <lightning-input-rich-text placeholder="Share an update..." value={richtextvalue} onchange={richTextOnChangehandler} formats={formats}></lightning-input-rich-text>
+            <div class="slds-text-body_small" style="text-align-last:end;">To link to a record, enter / then start typing the record name.</div>
+            <div class="slds-text-body_small"><strong>To</strong> Everyone</div>
+            <lightning-button-icon icon-name="utility:attach" variant="container" alternative-text="attach" title="Attach" ></lightning-button-icon>
+           
+            <div style="text-align-last:end;">
+                <lightning-button class="slds-align_absolute-right" label="Share" variant="brand" disabled={shareDisable} onclick={sharedhandler}></lightning-button>
+            </div>
+        </lightning-tab>
+    </lightning-tabset>
+   
+    <!-- Add component -->
+    <c-shared-posted record-id={recordId}></c-shared-posted>
+   
+    </template>
+    <template if:false={recordId}>
+         <lightning-spinner alternative-text="Loading" size="xx-small"></lightning-spinner>
+    </template>
+</template>

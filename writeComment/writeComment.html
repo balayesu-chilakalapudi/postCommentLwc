@@ -1,0 +1,104 @@
+<template>
+    <lightning-layout horizontal-align="spread" class="slds-p-horizontal_large">
+       
+        <lightning-layout-item padding="around-small">
+            <div style="display:flex">
+                <lightning-avatar variant="circle" src={profile_avtaar} initials="AW" fallback-icon-name="standard:person_account" alternative-text="Amy Weaver" class="slds-m-right_small"></lightning-avatar>
+                <div class="slds-text-body_small">
+                    <a href="#" title="Jason Rodgers">{post.createdByName}</a>  
+                    <template lwc:if={showTime}>
+                        <p class="slds-text-link_reset">{showTime}</p>
+                    </template>
+                    <template lwc:else>
+                        <p class="slds-text-link_reset">Just now</p>
+                    </template>
+                </div>
+            </div>
+        </lightning-layout-item>
+   
+       
+        <lightning-layout-item padding="around-small" >
+            <lightning-button-menu alternative-text="Show menu">
+                <lightning-menu-item label="Edit" value={post.id} onclick={onEditHandler}></lightning-menu-item>
+                <lightning-menu-item label="Delete" value={post.id} onclick={onDeleteHandler}></lightning-menu-item>
+                <lightning-menu-item label="Bookmark" value={post.id} onclick={onBookmarkHandler}></lightning-menu-item>
+            </lightning-button-menu>
+        </lightning-layout-item>
+    </lightning-layout>
+   
+    <lightning-layout class="slds-p-horizontal_large">
+        <lightning-layout-item>
+            <div class="slds-text-body_small slds-p-horizontal_large">
+                <lightning-formatted-rich-text value={post.post}></lightning-formatted-rich-text>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <lightning-layout class="slds-p-horizontal_large">
+        <lightning-layout-item>
+            <div class="slds-p-around_medium" style="display:flex;">
+                <button title="Like this item" class="slds-button_reset slds-text-body_small slds-post__footer-action" onclick={likedHandler}>
+                    <lightning-icon icon-name='utility:like' alternative-text='like' size='x-small' title='like'></lightning-icon>Like
+                </button>
+                   
+                <button title="Comment on this item" class="slds-button_reset slds-text-body_small slds-post__footer-action" onclick={commentHandler}>
+                    <lightning-icon icon-name='utility:comments' alternative-text='comments' size='x-small' title='comments'></lightning-icon> Comment
+                </button>
+               
+                <button title="Share this item" class="slds-button_reset slds-text-body_small slds-post__footer-action" onclick={shareHandler}>
+                    <lightning-icon icon-name='utility:share' alternative-text='share' size='x-small' title='share'></lightning-icon> Share
+                </button>
+            </div>
+        </lightning-layout-item>
+
+        <lightning-layout-item alignment-bump="left">
+            <template lwc:if={post.count}>
+                <div class="slds-p-around_medium slds-text-body_small">{post.count} comments</div>
+            </template>
+        </lightning-layout-item>
+    </lightning-layout>
+   
+   
+        <template for:each={post.comments} for:item="comment">
+            <div key={post.id}>
+                <lightning-layout multiple-rows class="slds-p-horizontal_large" >
+       
+                    <lightning-layout-item size="12" padding="around-small" style="background-color:rgb(243 243 243);">
+                        <div style="display:flex">
+                            <lightning-avatar variant="circle" src={profile_avtaar} initials="AW" fallback-icon-name="standard:person_account" alternative-text="Amy Weaver" class="slds-m-right_small"></lightning-avatar>
+                            <div class="slds-text-body_small">
+                                <a href="#" title="Jason Rodgers">{comment.CreatedBy.Name}</a>  
+                                <!-- <p class="slds-text-link_reset">Just now</p> -->
+                            </div>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" padding="around_small" style="background-color:rgb(243 243 243);">
+                        <div class="slds-text-body_small slds-p-bottom_small slds-m-right_small" style="margin-left:56px;">
+                            <lightning-formatted-rich-text value={comment.CommentBody}></lightning-formatted-rich-text>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" padding="around_small" style="background-color:rgb(243 243 243);">
+                        <div class="slds-text-body_small slds-p-bottom_small" style="margin-left:56px;">
+                            <button title="Like this item" class="slds-button_reset slds-text-body_small slds-post__footer-action" aria-pressed="false">Like</button>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </template>
+    
+   
+
+    <lightning-layout class="slds-p-horizontal_large" >
+        <lightning-layout-item class="slds-p-top_large" size="1" style="background-color:rgb(243 243 243);">
+            <lightning-avatar variant="circle" size="small" src={profile_avtaar} initials="AW" fallback-icon-name="standard:person_account" alternative-text="Amy Weaver" class="slds-m-left_small slds-p-top_small" ></lightning-avatar>
+        </lightning-layout-item>
+        <lightning-layout-item  class="slds-p-top_small slds-p-bottom_small slds-p-right_small" size="11" style="background-color:rgb(243 243 243);">
+            <lightning-input-rich-text data-id="comment-rich-text" class="slds-p-right_small slds-p-top_small" placeholder="Write a comment..." value={comment} formats={formats} onchange={commentChangeHandler} onfocus={commentClickHandler} ></lightning-input-rich-text>
+            <template lwc:if={visibleCommentBtn} >
+                <div style="text-align-last:end;" class="slds-m-around_small">
+                    <lightning-button class="slds-align_absolute-right" value={post.id} label="Comment" variant="brand" disabled={commentDisabled} onclick={commentBtnClickHandler}></lightning-button>
+                </div>
+            </template>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

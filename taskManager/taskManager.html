@@ -1,0 +1,83 @@
+<template>
+    <div style="background:white">
+    <div style="margin:2%">
+    <table>
+        <tr>
+            <td style="text-align:left">Task Manager</td>
+            <td style="text-align:right"><lightning-button label="Create Task" variant="neutral" onclick={createNewTask}></lightning-button></td>
+        </tr>
+    </table>
+<!--
+    <lightning-datatable
+        data={data}
+        columns={columns}
+        key-field="id"
+    oncellchange={handleCellChange}
+    row-actions={rowActions}
+    draft-values={draftValues}
+    onsave={handleSave}
+    suppress-bottom-bar="true"
+    >
+    </lightning-datatable>
+-->
+
+<c-custom-data-Table-lwc
+                    key-field="Id"
+                    data={data} 
+                    columns={columns}                     
+                    draft-values={draftValues}                     
+                    oncellchange={handleCellChange}
+                    onvalueselect={handleSelection}
+                    onsave={handleSave}
+                    oncancel={handleCancel}
+                    hide-checkbox-column>
+                </c-custom-data-Table-lwc>
+
+    <!-- modal start -->      
+   <template if:true={isShowModal}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+       <div class="slds-modal__container">
+        <!-- modal header start -->
+          <header class="slds-modal__header">
+             <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+                <lightning-icon icon-name="utility:close"
+                   alternative-text="close"
+                   variant="inverse"
+                   size="small" ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+             </button>
+             <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create New Task</h2>
+          </header>
+      
+          <!-- modal body start -->
+          <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+               <lightning-record-edit-form
+    object-api-name={objectApiName}    
+>
+    <div class="slds-p-around_medium lgc-bg">
+            <lightning-input type="text" label="Subject" onchange={readSubject}></lightning-input>
+        </div>
+         <div class="slds-p-around_medium lgc-bg">
+            <lightning-input type="date" label="Due Date" onchange={readDueDate}></lightning-input>
+        </div>
+         <div class="slds-p-around_medium lgc-bg">
+            <lightning-input type="text" label="Priority" onchange={readPriority}></lightning-input>
+        </div>
+
+</lightning-record-edit-form> 
+          </div>
+
+          <!-- modal footer start-->
+          <footer class="slds-modal__footer">
+            <button class="slds-button slds-button_success" onclick={saveModalBox}>Save</button>
+             <button class="slds-button slds-button_neutral" onclick={hideModalBox}>Cancel</button>
+          </footer>
+       
+       </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+ </template>
+ <!-- modal end -->
+</div>
+    </div>
+</template>

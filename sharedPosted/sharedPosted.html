@@ -1,0 +1,25 @@
+<template>
+    <template if:true={recordId}>
+        <lightning-card class="slds-m-top_large slds-p-horizontal_large">
+       
+            <lightning-layout horizontal-align="spread" class="slds-p-horizontal_large">
+                <lightning-layout-item  padding="around-small">
+                    <lightning-combobox label="Sort by" value={value} options={options} onchange={optionChangeHandler}></lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item  padding="around-small">
+                    <div style="display: flex;">
+                        <lightning-input name="enter-search" placeholder="Search this feed..." type="search" value={searchfeed} onkeypress={searchChangeHandler}></lightning-input>
+                        <lightning-button-icon class="slds-m-left_x-small" icon-name="utility:refresh" alternative-text="Refresh this feed" title="Refresh" onclick={refreshFeedsHandler} style="margin-top:19px;"></lightning-button-icon>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+           
+            <template for:each={postData} for:item="post" >
+                <div key={post.id}>
+                    <c-write-comment onaddcomment={insertcomment} post={post}  onedit={editHandler} ondelete={deleteHandler} onbookmark={bookmarkHandler}></c-write-comment>
+                </div>
+            </template>
+           
+        </lightning-card>
+    </template>
+</template>
